@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="自留地" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'copy',
+      copy_success: 'succeed',
+      copy_failure: 'failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="下载相关的文件 pcre-8.21.tar.bz2 nginx-1.4.1.tar.gz php-5.3.27 PCRE系统自带的PCRE版本太低了.所以需要卸载重装。第一步：查看PCRE的版本1$ rpm -qa | grep pcre">
+<meta name="keywords" content="nginx,centos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx and Php 最小化安装(CentOS)">
+<meta property="og:url" content="http://nsdont.tech/2013/11/26/Nginx-and-Php-最小化安装-CentOS/index.html">
+<meta property="og:site_name" content="自留地">
+<meta property="og:description" content="下载相关的文件 pcre-8.21.tar.bz2 nginx-1.4.1.tar.gz php-5.3.27 PCRE系统自带的PCRE版本太低了.所以需要卸载重装。第一步：查看PCRE的版本1$ rpm -qa | grep pcre">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-21T03:26:50.934Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx and Php 最小化安装(CentOS)">
+<meta name="twitter:description" content="下载相关的文件 pcre-8.21.tar.bz2 nginx-1.4.1.tar.gz php-5.3.27 PCRE系统自带的PCRE版本太低了.所以需要卸载重装。第一步：查看PCRE的版本1$ rpm -qa | grep pcre">
+  <link rel="canonical" href="http://nsdont.tech/2013/11/26/Nginx-and-Php-最小化安装-CentOS/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Nginx and Php 最小化安装(CentOS) | 自留地</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">自留地</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">瞎哔哔.....</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://nsdont.tech/2013/11/26/Nginx-and-Php-最小化安装-CentOS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NSDont">
+      <meta itemprop="description" content="个人博客">
+      <meta itemprop="image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自留地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">Nginx and Php 最小化安装(CentOS)
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2013-11-26 16:33:12" itemprop="dateCreated datePublished" datetime="2013-11-26T16:33:12+08:00">2013-11-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-21 11:26:50" itemprop="dateModified" datetime="2019-10-21T11:26:50+08:00">2019-10-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>4.1k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>4 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a><h2 id="下载相关的文件"><a href="#下载相关的文件" class="headerlink" title="下载相关的文件"></a>下载相关的文件</h2><ol>
+<li><a href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/" target="_blank" rel="noopener">pcre-8.21.tar.bz2</a></li>
+<li><a href="http://nginx.org/" target="_blank" rel="noopener">nginx-1.4.1.tar.gz</a></li>
+<li><a href="http://php.net/downloads.php" target="_blank" rel="noopener">php-5.3.27</a></li>
+</ol><h2 id="PCRE"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</h2><p>系统自带的PCRE版本太低了.所以需要卸载重装。<br>第一步：查看PCRE的版本</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qa | grep pcre</span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
+
+
+
+<p>第二步：保留以前的libpcre.so.0，没有这个无法重装PCRE的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /lib/libpcre.so.0 /lib/libpcre.so.0.back</span><br></pre></td></tr></table></figure>
+
+<p>第三步：卸载PCRE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm -e --nodeps pcre-7.8-4.el6.i686 #这里的这个7.8-4.el6.i686-是我这里版本，要根据自己电脑修改</span><br></pre></td></tr></table></figure>
+
+<p>第四步：安装新的PCRE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xj -f pcre-8.21.tar.gz</span><br><span class="line">$ cd pcre-8.21</span><br><span class="line">$ sudo mv /lib/libpcre.so.0.back /lib/libpcre.so.0</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --prefix=/usr/local/nginx</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br><span class="line">$ sudo /usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-开启PHP支持"><a href="#配置-开启PHP支持" class="headerlink" title="配置, 开启PHP支持"></a>配置, 开启PHP支持</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>增加PHP主页</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">root html;</span><br><span class="line">index index.html index.php index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开启PHP支持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">root html;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME /var/www$fastcgi_script_name;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意这里的fastcgi_pass 和 fastcgi_param的”/var/www”, fastcgi_pass是nginx请求到php的端口，而”/var/www”就是项目的存放路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器输入<a href="https://127.0.0.1就可以查看Nginx的欢迎信息了" target="_blank" rel="noopener">https://127.0.0.1就可以查看Nginx的欢迎信息了</a></p>
+<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>这里是最小化安装，所以就不配置什么插件了<br>Nginx 与 PHP的通信需要使用 PHP-FPM，在php5.3.3以后，PHP-FPM以及集成到了php，如果要使用的话，在编译的时候，加一句–enable-fpm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ./configure --prefix=/usr/local/php --enable-fpm</span><br><span class="line">$ sudo make</span><br><span class="line">$ sudo make test</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cd /usr/local/php</span><br><span class="line">$ cp etc/php-fpm.conf.default etc/php-fpm.conf</span><br><span class="line">$ sudo vim etc/php-fpm.conf</span><br><span class="line">$ 找到[global]，去掉&quot;;pid = run/php-fpm.pid&quot;的注释</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>我们之前提到了”/var/www”，我们在这里新建一个php文件，来测试环境是否搭建成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /var/www/info.php</span><br></pre></td></tr></table></figure>
+
+<p>info.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> <span class="keyword">echo</span> phpinfo(); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果之前已经开启nginx服务器，现在就不用开了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /usr/local/nginx/sbin/nginx</span><br><span class="line">$ sudo /usr/local/php/sbin/php-fpm</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写快速启动和关闭的nginx与php脚本"><a href="#编写快速启动和关闭的nginx与php脚本" class="headerlink" title="编写快速启动和关闭的nginx与php脚本"></a>编写快速启动和关闭的nginx与php脚本</h2><p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/init.d/php-fpm</span><br><span class="line">$ sudo chmod +x /etc/init.d/php-fpm</span><br><span class="line">$ sudo /sbin/chkconfig php-fpm on</span><br><span class="line">$ sudo /sbin/chkconfig --list php-fpm</span><br></pre></td></tr></table></figure>
+
+<p>成功的话<br>就可以看到好几个 on<br>测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/php-fpm stop</span><br><span class="line">$ sudo /etc/init.d/php-fpm start</span><br><span class="line">$ sudo /etc/init.d/php-fpm restart</span><br></pre></td></tr></table></figure>
+
+<p>php-fpm 脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">#</span><br><span class="line"># Startup script for the PHP-FPM server.</span><br><span class="line">#</span><br><span class="line"># chkconfig: 345 85 15</span><br><span class="line"># description: PHP is an HTML-embedded scripting language</span><br><span class="line"># processname: php-fpm</span><br><span class="line"># config: /usr/local/php/etc/php.ini</span><br><span class="line"></span><br><span class="line"># Source function library.</span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line"></span><br><span class="line">PHP_PATH=/usr/local</span><br><span class="line">DESC=&quot;php-fpm daemon&quot;</span><br><span class="line">NAME=php-fpm</span><br><span class="line"># php-fpm路径</span><br><span class="line">DAEMON=$PHP_PATH/php/sbin/$NAME</span><br><span class="line"># 配置文件路径</span><br><span class="line">CONFIGFILE=$PHP_PATH/php/etc/php-fpm.conf</span><br><span class="line"># PID文件路径(在php-fpm.conf设置)</span><br><span class="line">PIDFILE=$PHP_PATH/php/var/run/$NAME.pid</span><br><span class="line">SCRIPTNAME=/etc/init.d/$NAME</span><br><span class="line"></span><br><span class="line"># Gracefully exit if the package has been removed.</span><br><span class="line">test -x $DAEMON || exit 0</span><br><span class="line"></span><br><span class="line">rh_start() &#123;</span><br><span class="line">$DAEMON -y $CONFIGFILE || echo -n &quot; already running&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rh_stop() &#123;</span><br><span class="line">kill -QUIT `cat $PIDFILE` || echo -n &quot; not running&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rh_reload() &#123;</span><br><span class="line">kill -HUP `cat $PIDFILE` || echo -n &quot; can&apos;t reload&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">start)</span><br><span class="line">echo -n &quot;Starting $DESC: $NAME&quot;</span><br><span class="line">rh_start</span><br><span class="line">echo &quot;.&quot;</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line">echo -n &quot;Stopping $DESC: $NAME&quot;</span><br><span class="line">rh_stop</span><br><span class="line">echo &quot;.&quot;</span><br><span class="line">;;</span><br><span class="line">reload)</span><br><span class="line">echo -n &quot;Reloading $DESC configuration...&quot;</span><br><span class="line">rh_reload</span><br><span class="line">echo &quot;reloaded.&quot;</span><br><span class="line">;;</span><br><span class="line">restart)</span><br><span class="line">echo -n &quot;Restarting $DESC: $NAME&quot;</span><br><span class="line">rh_stop</span><br><span class="line">sleep 1</span><br><span class="line">rh_start</span><br><span class="line">echo &quot;.&quot;</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">echo &quot;Usage: $SCRIPTNAME &#123;start|stop|restart|reload&#125;&quot; &gt;&amp;2</span><br><span class="line">exit 3</span><br><span class="line">;;</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>nginx 脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">#</span><br><span class="line">#chkconfig: - 85 15</span><br><span class="line">#description: Nginx is a World Wide Web server.</span><br><span class="line">#processname: nginx</span><br><span class="line"></span><br><span class="line">nginx=/usr/local/nginx/sbin/nginx</span><br><span class="line">conf=/usr/local/nginx/conf/nginx.conf</span><br><span class="line"></span><br><span class="line">case $1 in</span><br><span class="line">start)</span><br><span class="line">echo -n &quot;Starting Nginx&quot;</span><br><span class="line">$nginx -c $conf</span><br><span class="line">echo &quot; done&quot;</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">stop)</span><br><span class="line">echo -n &quot;Stopping Nginx&quot;</span><br><span class="line">killall -9 nginx</span><br><span class="line">echo &quot; done&quot;</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">test)</span><br><span class="line">$nginx -t -c $conf</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">reload)</span><br><span class="line">echo -n &quot;Reloading Nginx&quot;</span><br><span class="line">ps auxww | grep nginx | grep master | awk &apos;&#123;print $2&#125;&apos; | xargs kill -HUP</span><br><span class="line">echo &quot; done&quot;</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">restart)</span><br><span class="line">$0 stop</span><br><span class="line">$0 start</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">show)</span><br><span class="line">ps -aux|grep nginx</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">*)</span><br><span class="line">echo -n &quot;Usage: $0 &#123;start|restart|reload|stop|test|show&#125;&quot;</span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>NSDont</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://nsdont.tech/2013/11/26/Nginx-and-Php-最小化安装-CentOS/" title="Nginx and Php 最小化安装(CentOS)">http://nsdont.tech/2013/11/26/Nginx-and-Php-最小化安装-CentOS/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/cc by-nc-sa 4.0/4.0/zh-cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/nginx/" rel="tag"># nginx</a>
+            
+              <a href="/tags/centos/" rel="tag"># centos</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2013/09/12/django-本地化/" rel="next" title="django 本地化">
+                  <i class="fa fa-chevron-left"></i> django 本地化
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2016/01/10/Gitlab-Runner-Register/" rel="prev" title="Gitlab Runner Register">
+                  Gitlab Runner Register <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载相关的文件"><span class="nav-number">1.</span> <span class="nav-text">下载相关的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCRE"><span class="nav-number">2.</span> <span class="nav-text">PCRE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx"><span class="nav-number">3.</span> <span class="nav-text">Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-开启PHP支持"><span class="nav-number">3.1.</span> <span class="nav-text">配置, 开启PHP支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP"><span class="nav-number">4.</span> <span class="nav-text">PHP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">4.1.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写快速启动和关闭的nginx与php脚本"><span class="nav-number">6.</span> <span class="nav-text">编写快速启动和关闭的nginx与php脚本</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png"
+      alt="NSDont">
+  <p class="site-author-name" itemprop="name">NSDont</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/nsdont" title="GitHub &rarr; https://github.com/nsdont" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      我的朋友们
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://mailto1587.github.io" title="https://mailto1587.github.io" rel="noopener" target="_blank">mailto1587</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://tommao.me/" title="http://tommao.me/" rel="noopener" target="_blank">istommao</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://peachis.me/" title="http://peachis.me/" rel="noopener" target="_blank">peach</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://lagelalegal.github.io/" title="http://lagelalegal.github.io/" rel="noopener" target="_blank">lagel</a>
+        </li>
+      
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">NSDont</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">11k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">10 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1278058018&web_id=1278058018"></script>
+  </div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '708eb24049cf4132a8bb',
+      clientSecret: 'ad31e98ce4b6a36d8ea5a5102277ddbe56bb4834',
+      repo: 'nsdont.github.io',
+      owner: 'nsdont',
+      admin: ['nsdont'],
+      id: '5af0c57337f4a97d9d8df31aa8333d19',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
