@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="1F60E041435D8E6C1DA36A243A1F80F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"nsdont.tech","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="翻译自：https:&#x2F;&#x2F;medium.com&#x2F;@opinionbreaker&#x2F;python-3-can-revive-python-2a7af4788b10#.2a0ao5xj6  我阅读了 certain Stephen A 的一篇文章. 讲解了 “Python 3 是如何杀死 Python”. 他有一些可信的理由，但是我不同意 Python 3 会杀死 Python, 尽管现在 Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 3 拯救 python">
+<meta property="og:url" content="https://nsdont.tech/2016/07/19/Python-3-%E6%8B%AF%E6%95%91-python/index.html">
+<meta property="og:site_name" content="自留地">
+<meta property="og:description" content="翻译自：https:&#x2F;&#x2F;medium.com&#x2F;@opinionbreaker&#x2F;python-3-can-revive-python-2a7af4788b10#.2a0ao5xj6  我阅读了 certain Stephen A 的一篇文章. 讲解了 “Python 3 是如何杀死 Python”. 他有一些可信的理由，但是我不同意 Python 3 会杀死 Python, 尽管现在 Python">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-07-19T01:35:11.000Z">
+<meta property="article:modified_time" content="2024-04-26T07:10:11.025Z">
+<meta property="article:author" content="NSDont">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://nsdont.tech/2016/07/19/Python-3-%E6%8B%AF%E6%95%91-python/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://nsdont.tech/2016/07/19/Python-3-%E6%8B%AF%E6%95%91-python/","path":"2016/07/19/Python-3-拯救-python/","title":"Python 3 拯救 python"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 3 拯救 python | 自留地</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="自留地" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">自留地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">瞎哔哔.....</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="NSDont"
+      src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+  <p class="site-author-name" itemprop="name">NSDont</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/nsdont" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;nsdont" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://mailto1587.github.io/" title="https:&#x2F;&#x2F;mailto1587.github.io" rel="noopener" target="_blank">mailto1587</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://tommao.me/" title="http:&#x2F;&#x2F;tommao.me&#x2F;" rel="noopener" target="_blank">istommao</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://peachis.me/" title="http:&#x2F;&#x2F;peachis.me&#x2F;" rel="noopener" target="_blank">peach</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://lagelalegal.github.io/" title="http:&#x2F;&#x2F;lagelalegal.github.io&#x2F;" rel="noopener" target="_blank">lagel</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nsdont.tech/2016/07/19/Python-3-%E6%8B%AF%E6%95%91-python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+      <meta itemprop="name" content="NSDont">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自留地">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python 3 拯救 python | 自留地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 3 拯救 python
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-07-19 09:35:11" itemprop="dateCreated datePublished" datetime="2016-07-19T09:35:11+08:00">2016-07-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-26 15:10:11" itemprop="dateModified" datetime="2024-04-26T15:10:11+08:00">2024-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>翻译自：<a target="_blank" rel="noopener" href="https://medium.com/@opinionbreaker/python-3-can-revive-python-2a7af4788b10#.2a0ao5xj6">https://medium.com/@opinionbreaker/python-3-can-revive-python-2a7af4788b10#.2a0ao5xj6</a></p>
+</blockquote>
+<p>我阅读了 certain Stephen A 的一篇<a target="_blank" rel="noopener" href="http://blog.thezerobit.com/2014/05/25/python-3-is-killing-python.html">文章</a>. 讲解了 “Python 3 是如何杀死 Python”.</p>
+<p>他有一些可信的理由，但是我不同意 Python 3 会杀死 Python, 尽管现在 Python 的局面并不好.</p>
+<hr>
+<span id="more"></span>
+<p>“但也许每一次的危机都是一次机会”，一段用烂的座右铭.</p>
+<p><strong>也许 Python 3 能使 Python 浴火重生.</strong></p>
+<p>你看，这不仅仅是 Python 2 向 Python 3 迁移的问题. 我们现在并不是 2005 年, 并且新的程序员并没有与任一个版本的 Python 留下深刻印象. 当然, 有很多 Python 功能，但话又说回来, Java 的工作机会更多. 还有以前有许多 Perl 工作, 现在我并没有听到他们做的很好. 我不是在讨论工作的数量或者 GitHub 的仓库数量. 我想说的是占有率和激情, 我知道这些都有点主观, 但是我感觉 Python 在这两个方面有所缺乏但为时未晚.</p>
+<p>比如，我们看到很多人从 Python 转向 Go.</p>
+<p>同样，他们也不是很多, 但他们相当直接 (包括创业公司开发团队在博客上面发布更换整个技术栈), 还有人有一定的影响力 (令人惊讶的有罗勃·派克, 谁能预估有多少人从 C&#x2F;C++ 转向 Go).</p>
+<hr>
+<p>Python 面临着来自各方面的竞争. 有些竞争出现在 Python 的热门领域 (例如新的异步项目, 更喜欢使用 Go 而不是 Twisted, Rails 依旧统治着 Web 框架), 与效仿者竞争特定领域 (例如 Julia 在科学计算), 还有综合力竞争(Clojure, Groovy, Javascript, Dart, 等等).</p>
+<hr>
+<p>因此，这是我关于 Python 3 的看法. 一个简单的方法:</p>
+<p><strong>让它引人注目.</strong></p>
+<p>Python 3 已经不兼容 Python2 了. 不喜欢 Python 3 都成群结队的迁移走了, 所以新增一些不兼容的修改不仅不会伤害到它, 还会使它更好.</p>
+<p>认真的说，如果 Python3 有足够诱人的新特性, 更多的用户会迁移到这里 (至少对于新的项目来说), 还有更多的人会将 Python 2 的项目或库移植过来. 最后, 据我看来, Python 3 足以吸引那些目前未使用 Python 的人.</p>
+<hr>
+<p>在你看来, Python 3 是一个无聊的更新.</p>
+<p>当然, 它使语言更加连贯和修复了一些长期存在的问题和苦恼. 但它并没有做好充足的准备. 话又说回来, Python3 的横向兼容和路线图做的更好和严禁. 哎, Javascript 如果没有在那个时候流行起来. YouTube 就不会存在了. 这是很早以前的事情了.</p>
+<p>现在比如合适的闭包, 变量不变性, 好的异步构思, 等等, 这些是现在的黑客优先考虑的功能.</p>
+<hr>
+<p>不提将来, 长话短说; 这里有一些事情可能让今天的黑客对 Python 3 感兴趣。拿我来<br>说，这些事情引起了我的兴趣:</p>
+<hr>
+<ol>
+<li><p>移除GIL. 或者提供一个更好的异步构思. 也许有可能 Guido 提出 PEP 3156. 类似 Go 的 Channel 这种原语也不错.</p>
+</li>
+<li><p>加速 Python. 认真的说, 如果 Javascript 可能变得更快, CPython 也可以变得更快. 或者 PyPy 成熟到可以成熟到替换它 (应该只有这一个). 如果需要花大价钱或 Lars Bak 可以这么做, 开始动起来把 — 我会作出贡献. 各个大公司也将做出贡献. 会不会是 Dropbox 将会花大代价将 Python 在 LLVM 上面重构?</p>
+</li>
+<li><p>添加更多类型. 那么, 新加入的类型. 让你可以用它来加速一些代码的运行 (就像 Cython),  或提供注解和帮助类型检查(就像 Dart). 给标准库的每一个方法、类都加上类型注解.</p>
+</li>
+<li><p>修改标准库. 让一个团队一起去修改长期的问题, 提高修改速度和修复错误. 提高自己的 API, 然后提供简单、漂亮、常用的接口 (比如 requests vs urllib) 一起加入到标准库里面, 使用命名空间区别. 可以很容易地切换（也许还包括一些自动化工具）。</p>
+</li>
+<li><p>重构 REPL. 现在已经是 2014 年了. 将 REPL 以现代的方式重做. 添加一些颜色. 从 IPython 学习. 做成 Client&#x2F;Server 的形式, 让 IDE 和编辑器更好的嵌入它.</p>
+</li>
+</ol>
+<hr>
+<p>因此, Python 3 的开发人员, 利用好你们的时间. 好了, 没有太多的时间. 也许, 3 - 4年. 我们已经等了 10 年的 ES6, 我们等它花一半的时间, 然后为你服务.</p>
+<p>它现在并没有让任何人将 Python 3 用到各种地方, 所以需要一定的机会, 打破现在的局面, 尽早发布和交付. 让社区热闹起来.</p>
+<p>你看，Python 3 不是真的杀了 Python. 但是有可能从现在把它拯救出来。</p>
+<hr>
+<p>附：你怎么看？你能想到的东西，另外，你有想到额外的事情可以使 Python 3 中更诱人吗？或者有什么新的特性让你饥渴难耐？</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/05/06/Tips-Git-%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E9%87%8C%E7%9A%84%E6%96%87%E4%BB%B6%E4%BD%86%E4%B8%8D%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E7%9A%84%E5%8A%9E%E6%B3%95/" rel="prev" title="[Tips] Git 忽略目录里的文件但不忽略目录的办法">
+                  <i class="fa fa-angle-left"></i> [Tips] Git 忽略目录里的文件但不忽略目录的办法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/09/17/Wireshark_%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE/" rel="next" title="Wireshark 如何抓取数据并分析">
+                  Wireshark 如何抓取数据并分析 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">NSDont</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">12k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"nsdont","repo":"nsdont.github.io","client_id":"708eb24049cf4132a8bb","client_secret":"ad31e98ce4b6a36d8ea5a5102277ddbe56bb4834","admin_user":"nsdont","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"75b674bede1cfe8413aa1e5d2335ce7c"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

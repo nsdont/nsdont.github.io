@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="1F60E041435D8E6C1DA36A243A1F80F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"nsdont.tech","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="一、如何使用 tcpdump 抓取数据我们使用 tcpdump 来进行抓取数据。下面是一个命令案例： 1tcpdump -i &lt;net_name&gt; host &lt;ip&gt; -w &lt;ip&gt;.pcap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wireshark 如何抓取数据并分析">
+<meta property="og:url" content="https://nsdont.tech/2019/09/17/Wireshark_%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="自留地">
+<meta property="og:description" content="一、如何使用 tcpdump 抓取数据我们使用 tcpdump 来进行抓取数据。下面是一个命令案例： 1tcpdump -i &lt;net_name&gt; host &lt;ip&gt; -w &lt;ip&gt;.pcap">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2019/09/17/15687291476608.jpg">
+<meta property="article:published_time" content="2019-09-17T13:53:23.000Z">
+<meta property="article:modified_time" content="2024-04-26T07:09:05.920Z">
+<meta property="article:author" content="NSDont">
+<meta property="article:tag" content="Wireshark">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2019/09/17/15687291476608.jpg">
+
+
+<link rel="canonical" href="https://nsdont.tech/2019/09/17/Wireshark_%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://nsdont.tech/2019/09/17/Wireshark_%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE/","path":"2019/09/17/Wireshark_抓取数据/","title":"Wireshark 如何抓取数据并分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Wireshark 如何抓取数据并分析 | 自留地</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="自留地" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">自留地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">瞎哔哔.....</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-tcpdump-%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">一、如何使用 tcpdump 抓取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8-Wireshark-%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">二、使用 Wireshark 进行数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-url-%E6%9D%A5%E8%BF%87%E6%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">通过 url 来过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-http-body-%E6%9D%A5%E8%BF%87%E6%BB%A4"><span class="nav-number">2.2.</span> <span class="nav-text">通过 http body 来过滤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="NSDont"
+      src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+  <p class="site-author-name" itemprop="name">NSDont</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/nsdont" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;nsdont" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://mailto1587.github.io/" title="https:&#x2F;&#x2F;mailto1587.github.io" rel="noopener" target="_blank">mailto1587</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://tommao.me/" title="http:&#x2F;&#x2F;tommao.me&#x2F;" rel="noopener" target="_blank">istommao</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://peachis.me/" title="http:&#x2F;&#x2F;peachis.me&#x2F;" rel="noopener" target="_blank">peach</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://lagelalegal.github.io/" title="http:&#x2F;&#x2F;lagelalegal.github.io&#x2F;" rel="noopener" target="_blank">lagel</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nsdont.tech/2019/09/17/Wireshark_%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+      <meta itemprop="name" content="NSDont">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自留地">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Wireshark 如何抓取数据并分析 | 自留地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Wireshark 如何抓取数据并分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-09-17 21:53:23" itemprop="dateCreated datePublished" datetime="2019-09-17T21:53:23+08:00">2019-09-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-26 15:09:05" itemprop="dateModified" datetime="2024-04-26T15:09:05+08:00">2024-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>506</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="一、如何使用-tcpdump-抓取数据"><a href="#一、如何使用-tcpdump-抓取数据" class="headerlink" title="一、如何使用 tcpdump 抓取数据"></a>一、如何使用 tcpdump 抓取数据</h2><p>我们使用 <code>tcpdump</code> 来进行抓取数据。<br>下面是一个命令案例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i &lt;net_name&gt; host &lt;ip&gt; -w &lt;ip&gt;.pcap</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>首先，net_name 是执行命令所在机器的网卡名称，一般来说使用 ip a, ifconfig 之类的命令获取，如下图就是使用 ifconfig 的返回结果，我们可以看到 <code>10.1.1.14</code> 对应的网卡名称是 <code>eth0</code>。<br><img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2019/09/17/15687291476608.jpg"></p>
+<p>接着就是 <code>ip</code>，<code>ip</code> 就是与当前机器有网络交互的机器<code>ip</code>。比如有一台机器 <code>10.1.1.15</code> 开放了 <code>80</code> 端口的服务，我们想要抓取 <code>10.1.1.14</code> 访问 <code>10.1.1.15</code> 的 80 所产生的数据，就执行下面的命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 host 10.1.1.14 -w 10.1.1.14.pcap</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、使用-Wireshark-进行数据分析"><a href="#二、使用-Wireshark-进行数据分析" class="headerlink" title="二、使用 Wireshark 进行数据分析"></a>二、使用 Wireshark 进行数据分析</h2><p>使用 Wireshark 打开上面得到 10.1.1.14.pcap 文件</p>
+<h3 id="通过-url-来过滤"><a href="#通过-url-来过滤" class="headerlink" title="通过 url 来过滤"></a>通过 url 来过滤</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.full_uri contains &quot;users&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过-http-body-来过滤"><a href="#通过-http-body-来过滤" class="headerlink" title="通过 http body 来过滤"></a>通过 http body 来过滤</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp contains &quot;username&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2019/09/17/Wireshark_Display_Filters.pdf">过滤器案例手册</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Wireshark/" rel="tag"># Wireshark</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/07/19/Python-3-%E6%8B%AF%E6%95%91-python/" rel="prev" title="Python 3 拯救 python">
+                  <i class="fa fa-angle-left"></i> Python 3 拯救 python
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/04/26/SpringBoot-Valid-%E6%9C%AA%E7%94%9F%E6%95%88%E6%8E%92%E6%9F%A5/" rel="next" title="Spring Boot @Valid 未生效排查清单">
+                  Spring Boot @Valid 未生效排查清单 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">NSDont</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">12k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"nsdont","repo":"nsdont.github.io","client_id":"708eb24049cf4132a8bb","client_secret":"ad31e98ce4b6a36d8ea5a5102277ddbe56bb4834","admin_user":"nsdont","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1d5e45a926eb6e79fce1df2ba8a20d75"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

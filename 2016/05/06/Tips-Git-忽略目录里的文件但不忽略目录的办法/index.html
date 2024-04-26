@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="1F60E041435D8E6C1DA36A243A1F80F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"nsdont.tech","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景我在开发时候遇到一个问题，关于图片上传接口, 默认情况下，Python 代码是不会自动创建文件的，如果想要把图片保存到某个目录下面，需要事先检查是否有这个目录结构，否则就会报错。但是纠结的那颗心，我😭拒绝写检查文件夹是否存在的代码。 所以有了这篇文章。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Tips] Git 忽略目录里的文件但不忽略目录的办法">
+<meta property="og:url" content="https://nsdont.tech/2016/05/06/Tips-Git-%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E9%87%8C%E7%9A%84%E6%96%87%E4%BB%B6%E4%BD%86%E4%B8%8D%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E7%9A%84%E5%8A%9E%E6%B3%95/index.html">
+<meta property="og:site_name" content="自留地">
+<meta property="og:description" content="背景我在开发时候遇到一个问题，关于图片上传接口, 默认情况下，Python 代码是不会自动创建文件的，如果想要把图片保存到某个目录下面，需要事先检查是否有这个目录结构，否则就会报错。但是纠结的那颗心，我😭拒绝写检查文件夹是否存在的代码。 所以有了这篇文章。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-05-06T09:15:15.000Z">
+<meta property="article:modified_time" content="2024-04-26T07:09:20.874Z">
+<meta property="article:author" content="NSDont">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://nsdont.tech/2016/05/06/Tips-Git-%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E9%87%8C%E7%9A%84%E6%96%87%E4%BB%B6%E4%BD%86%E4%B8%8D%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E7%9A%84%E5%8A%9E%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://nsdont.tech/2016/05/06/Tips-Git-%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E9%87%8C%E7%9A%84%E6%96%87%E4%BB%B6%E4%BD%86%E4%B8%8D%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E7%9A%84%E5%8A%9E%E6%B3%95/","path":"2016/05/06/Tips-Git-忽略目录里的文件但不忽略目录的办法/","title":"[Tips] Git 忽略目录里的文件但不忽略目录的办法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>[Tips] Git 忽略目录里的文件但不忽略目录的办法 | 自留地</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="自留地" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">自留地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">瞎哔哔.....</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E5%B7%A7%E5%A6%99%E7%9A%84%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">方法一：巧妙的修改配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E5%BC%BA%E5%88%B6%E6%8F%90%E4%BA%A4"><span class="nav-number">2.2.</span> <span class="nav-text">方法二：强制提交</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="nav-number">3.</span> <span class="nav-text">相关链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="NSDont"
+      src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+  <p class="site-author-name" itemprop="name">NSDont</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/nsdont" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;nsdont" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://mailto1587.github.io/" title="https:&#x2F;&#x2F;mailto1587.github.io" rel="noopener" target="_blank">mailto1587</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://tommao.me/" title="http:&#x2F;&#x2F;tommao.me&#x2F;" rel="noopener" target="_blank">istommao</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://peachis.me/" title="http:&#x2F;&#x2F;peachis.me&#x2F;" rel="noopener" target="_blank">peach</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://lagelalegal.github.io/" title="http:&#x2F;&#x2F;lagelalegal.github.io&#x2F;" rel="noopener" target="_blank">lagel</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nsdont.tech/2016/05/06/Tips-Git-%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E9%87%8C%E7%9A%84%E6%96%87%E4%BB%B6%E4%BD%86%E4%B8%8D%E5%BF%BD%E7%95%A5%E7%9B%AE%E5%BD%95%E7%9A%84%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+      <meta itemprop="name" content="NSDont">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自留地">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="[Tips] Git 忽略目录里的文件但不忽略目录的办法 | 自留地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [Tips] Git 忽略目录里的文件但不忽略目录的办法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-05-06 17:15:15" itemprop="dateCreated datePublished" datetime="2016-05-06T17:15:15+08:00">2016-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-26 15:09:20" itemprop="dateModified" datetime="2024-04-26T15:09:20+08:00">2024-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cheat/" itemprop="url" rel="index"><span itemprop="name">Cheat</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>597</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我在开发时候遇到一个问题，关于图片上传接口, 默认情况下，Python 代码是不会自动创建文件的，如果想要把图片保存到某个目录下面，需要事先检查是否有这个目录结构，否则就会报错。<br>但是纠结的那颗心，我😭拒绝写检查文件夹是否存在的代码。</p>
+<p>所以有了这篇文章。</p>
+<span id="more"></span>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>长话短说，我发现了简单两个方法来达到我的目的。</p>
+<h3 id="方法一：巧妙的修改配置文件"><a href="#方法一：巧妙的修改配置文件" class="headerlink" title="方法一：巧妙的修改配置文件"></a>方法一：巧妙的修改配置文件</h3><p>gitignore 的用法可以看下面的链接，放出我的 gitignore 配置文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">media/*.*</span><br><span class="line">media/images/*.*</span><br><span class="line">media/avatar/*.*</span><br></pre></td></tr></table></figure>
+
+<p><code>*.*</code> 代表要忽略 <code>a.b</code> 这种形式的文件，然后我们在 media，media&#x2F;images, media&#x2F;avatar 下面都加上 .gitkeep 这个文件，这样子我们就可以把这个三个文件夹都添加到 git 里面了。</p>
+<p>注：这里的 .gitkeep 也可以是别的文件名，比如 .iwantit、.iloveyou, 我使用 gitkeep, 纯属个人喜好。 </p>
+<h3 id="方法二：强制提交"><a href="#方法二：强制提交" class="headerlink" title="方法二：强制提交"></a>方法二：强制提交</h3><p>这个就比较狂野了，先放配置文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">media/</span><br></pre></td></tr></table></figure>
+<p>代表忽略 <code>media</code> 下面所有的文件。</p>
+<p>然后开始强制提交：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add -f media/.gitkeep</span><br><span class="line">git add -f media/images/.gitkeep</span><br><span class="line">git add -f media/avatar/.gitkeep</span><br></pre></td></tr></table></figure>
+
+<p>done.</p>
+<p>记得 commit。</p>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/a078cf2fd9b0">【git】.gitignore用法 - 简书</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/05/06/select2-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E9%80%89/" rel="prev" title="Select2 如何实现多选">
+                  <i class="fa fa-angle-left"></i> Select2 如何实现多选
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/07/19/Python-3-%E6%8B%AF%E6%95%91-python/" rel="next" title="Python 3 拯救 python">
+                  Python 3 拯救 python <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">NSDont</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">12k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"nsdont","repo":"nsdont.github.io","client_id":"708eb24049cf4132a8bb","client_secret":"ad31e98ce4b6a36d8ea5a5102277ddbe56bb4834","admin_user":"nsdont","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"eebeb911de6f3dafb3dee929fd618351"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
