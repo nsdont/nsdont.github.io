@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -308,10 +308,18 @@
 <span id="more"></span>
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>监控两个事件( select, unselect)，覆写显示结果 ( templateResult )。</p>
 <ol>
-<li>选中某个元素，就会创建一个同样内容的 option。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$eventSelect.<span class="title function_">on</span>(<span class="string">&quot;select2:select&quot;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123; </span><br><span class="line">  $eventSelect.<span class="title function_">append</span>(<span class="string">&#x27;&lt;option value=&quot;&#x27;</span>+e.<span class="property">params</span>.<span class="property">data</span>.<span class="property">text</span>+<span class="string">&#x27;&quot;&gt;&#x27;</span> +e.<span class="property">params</span>.<span class="property">data</span>.<span class="property">text</span> + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
-<li>在 templateResult 显示具体的元素时，检查 <code>obj.element.selected</code>, 如果为 true, 就直接不显示。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">formatResultData</span> (data) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!data.<span class="property">id</span>) <span class="keyword">return</span> data.<span class="property">text</span>;</span><br><span class="line">  <span class="keyword">if</span> (data.<span class="property">element</span>.<span class="property">selected</span>) <span class="keyword">return</span></span><br><span class="line">  <span class="keyword">return</span> data.<span class="property">text</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">$eventSelect.<span class="title function_">select2</span>(&#123;</span><br><span class="line">  <span class="attr">templateResult</span>: formatResultData,</span><br><span class="line">  <span class="attr">tags</span>: <span class="literal">true</span>&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
-<li>取消选中某个元素时，就直接删除该 option。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$eventSelect.<span class="title function_">on</span>(<span class="string">&quot;select2:unselect&quot;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123; </span><br><span class="line">  e.<span class="property">params</span>.<span class="property">data</span>.<span class="property">element</span>.<span class="title function_">remove</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li>选中某个元素，就会创建一个同样内容的 option。</li>
 </ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$eventSelect.<span class="title function_">on</span>(<span class="string">&quot;select2:select&quot;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123; </span><br><span class="line">  $eventSelect.<span class="title function_">append</span>(<span class="string">&#x27;&lt;option value=&quot;&#x27;</span>+e.<span class="property">params</span>.<span class="property">data</span>.<span class="property">text</span>+<span class="string">&#x27;&quot;&gt;&#x27;</span> +e.<span class="property">params</span>.<span class="property">data</span>.<span class="property">text</span> + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在 templateResult 显示具体的元素时，检查 <code>obj.element.selected</code>, 如果为 true, 就直接不显示。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">formatResultData</span> (data) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!data.<span class="property">id</span>) <span class="keyword">return</span> data.<span class="property">text</span>;</span><br><span class="line">  <span class="keyword">if</span> (data.<span class="property">element</span>.<span class="property">selected</span>) <span class="keyword">return</span></span><br><span class="line">  <span class="keyword">return</span> data.<span class="property">text</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">$eventSelect.<span class="title function_">select2</span>(&#123;</span><br><span class="line">  <span class="attr">templateResult</span>: formatResultData,</span><br><span class="line">  <span class="attr">tags</span>: <span class="literal">true</span>&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>取消选中某个元素时，就直接删除该 option。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$eventSelect.<span class="title function_">on</span>(<span class="string">&quot;select2:unselect&quot;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123; </span><br><span class="line">  e.<span class="property">params</span>.<span class="property">data</span>.<span class="property">element</span>.<span class="title function_">remove</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <h2 id="最终的代码"><a href="#最终的代码" class="headerlink" title="最终的代码"></a>最终的代码</h2><p><a target="_blank" rel="noopener" href="https://jsfiddle.net/nsdont/pu6yhbxy/4/">jsfiddle 代码</a></p>
 <h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a target="_blank" rel="noopener" href="https://select2.github.io/examples.html#events">官方 event 事件文档</a><br><a target="_blank" rel="noopener" href="https://github.com/select2/select2/issues/3341">how to allow duplicate selections · Issue #3341 · select2&#x2F;select2</a></p>
 
@@ -375,7 +383,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -386,13 +394,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">13k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">12 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">

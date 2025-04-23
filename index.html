@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -153,7 +153,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -206,6 +206,105 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://nsdont.tech/2025/04/23/M-%E7%B3%BB%E5%88%97-Mac-%E5%A6%82%E4%BD%95%E6%8B%89%E5%8F%96%E8%BF%90%E8%A1%8C%E9%9D%9E-ARM-%E6%9E%B6%E6%9E%84%E7%9A%84%E9%95%9C%E5%83%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+      <meta itemprop="name" content="NSDont">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自留地">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 自留地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/23/M-%E7%B3%BB%E5%88%97-Mac-%E5%A6%82%E4%BD%95%E6%8B%89%E5%8F%96%E8%BF%90%E8%A1%8C%E9%9D%9E-ARM-%E6%9E%B6%E6%9E%84%E7%9A%84%E9%95%9C%E5%83%8F/" class="post-title-link" itemprop="url">M 系列 Mac 如何拉取运行非 ARM 架构的镜像</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-23 16:10:55 / 修改时间：17:05:34" itemprop="dateCreated datePublished" datetime="2025-04-23T16:10:55+08:00">2025-04-23</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>811</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ol>
+<li>我想运行一个镜像，发现他没有对应 arm 架构镜像，只有 linux&#x2F;amd64, <img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/04/23/SCR-20250423-ojsj.png" alt="案例"></li>
+<li>群晖上的 docker 无法拉取镜像，需要在本地拉取镜像，然后上传到群晖里</li>
+</ol>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="如何运行和拉取非-ARM-架构镜像"><a href="#如何运行和拉取非-ARM-架构镜像" class="headerlink" title="如何运行和拉取非 ARM 架构镜像"></a>如何运行和拉取非 ARM 架构镜像</h2><h3 id="直接运行-AMD-的镜像"><a href="#直接运行-AMD-的镜像" class="headerlink" title="直接运行 AMD 的镜像"></a>直接运行 AMD 的镜像</h3><p>报错如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run vitess/lite:mysql84</span><br><span class="line">WARNING: The requested image<span class="string">&#x27;s platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="通过-Rosetta-运行-AMD-镜像"><a href="#通过-Rosetta-运行-AMD-镜像" class="headerlink" title="通过 Rosetta 运行 AMD 镜像"></a>通过 Rosetta 运行 AMD 镜像</h3><blockquote>
+<p>我们需要使用 OrbStack (优势 -&gt; 远比 Docker for Mac 资源占用低)</p>
+</blockquote>
+<ol>
+<li>开启使用 Rosetta 运行 intel <img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/04/23/SCR-20250423-oxnw.png" alt="OrbStack 配置"></li>
+<li>运行时指定架构 -&gt; <code>docker run --platform linux/amd64 vitess/lite:mysql84</code></li>
+</ol>
+<h2 id="在本地拉取镜像，然后上传到群晖里"><a href="#在本地拉取镜像，然后上传到群晖里" class="headerlink" title="在本地拉取镜像，然后上传到群晖里"></a>在本地拉取镜像，然后上传到群晖里</h2><p>直接放脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"><span class="built_in">set</span> -x</span><br><span class="line"></span><br><span class="line">image_name=<span class="variable">$1</span></span><br><span class="line">nas_ip=<span class="string">&quot;192.168.100.123&quot;</span></span><br><span class="line"></span><br><span class="line">docker pull --platform linux/amd64 <span class="variable">$image_name</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/Downloads/temp_images</span><br><span class="line">docker save <span class="variable">$image_name</span> | gzip &gt; ~/Downloads/temp_images/temp_image.tgz</span><br><span class="line">scp ~/Downloads/temp_images/temp_image.tgz <span class="variable">$nas_ip</span>:~/temp_image.tgz</span><br><span class="line">ssh <span class="variable">$nas_ip</span> <span class="string">&quot;ls -l ~/temp_image.tgz; gunzip -c ~/temp_image.tgz | /usr/bin/docker load&quot;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1050,7 +1149,8 @@
           <h2 id="下载相关的文件"><a href="#下载相关的文件" class="headerlink" title="下载相关的文件"></a>下载相关的文件</h2><ol>
 <li><a href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/">pcre-8.21.tar.bz2</a></li>
 <li><a target="_blank" rel="noopener" href="http://nginx.org/">nginx-1.4.1.tar.gz</a></li>
-<li><a target="_blank" rel="noopener" href="http://php.net/downloads.php">php-5.3.27</a>
+<li><a target="_blank" rel="noopener" href="http://php.net/downloads.php">php-5.3.27</a></li>
+</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/11/26/Nginx-and-Php-%E6%9C%80%E5%B0%8F%E5%8C%96%E5%AE%89%E8%A3%85-CentOS/#more" rel="contents">
@@ -1193,7 +1293,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -1204,13 +1304,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">13k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">12 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
