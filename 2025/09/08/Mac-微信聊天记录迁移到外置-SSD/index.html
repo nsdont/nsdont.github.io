@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="1F60E041435D8E6C1DA36A243A1F80F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"nsdont.tech","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景 我的 MBP 只有 500GB, 多年用下来多余空间已经不足, 时不时就只有几 GB 我买了个 2 TB 的 SSD 做外置硬盘(尿袋), 每天插着用  发现微信占用了将近 50 GB今天用 DaisyDisk 分析磁盘使用时, 发现微信占用了快 50 GB.决定把迁移到 SSD 上, 因为动了沙盒环境, 微信迁移稍微麻烦一点, 上代码 注意: 先停止微信 1234567891011# 将整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac 微信聊天记录迁移到外置 SSD">
+<meta property="og:url" content="https://nsdont.tech/2025/09/08/Mac-%E5%BE%AE%E4%BF%A1%E8%81%8A%E5%A4%A9%E8%AE%B0%E5%BD%95%E8%BF%81%E7%A7%BB%E5%88%B0%E5%A4%96%E7%BD%AE-SSD/index.html">
+<meta property="og:site_name" content="自留地">
+<meta property="og:description" content="背景 我的 MBP 只有 500GB, 多年用下来多余空间已经不足, 时不时就只有几 GB 我买了个 2 TB 的 SSD 做外置硬盘(尿袋), 每天插着用  发现微信占用了将近 50 GB今天用 DaisyDisk 分析磁盘使用时, 发现微信占用了快 50 GB.决定把迁移到 SSD 上, 因为动了沙盒环境, 微信迁移稍微麻烦一点, 上代码 注意: 先停止微信 1234567891011# 将整">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573215584116.jpg">
+<meta property="og:image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573219230948.jpg">
+<meta property="og:image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573218863355.jpg">
+<meta property="article:published_time" content="2025-09-08T08:27:51.000Z">
+<meta property="article:modified_time" content="2025-09-08T09:02:53.243Z">
+<meta property="article:author" content="NSDont">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="SSD">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="尿袋">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573215584116.jpg">
+
+
+<link rel="canonical" href="https://nsdont.tech/2025/09/08/Mac-%E5%BE%AE%E4%BF%A1%E8%81%8A%E5%A4%A9%E8%AE%B0%E5%BD%95%E8%BF%81%E7%A7%BB%E5%88%B0%E5%A4%96%E7%BD%AE-SSD/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://nsdont.tech/2025/09/08/Mac-%E5%BE%AE%E4%BF%A1%E8%81%8A%E5%A4%A9%E8%AE%B0%E5%BD%95%E8%BF%81%E7%A7%BB%E5%88%B0%E5%A4%96%E7%BD%AE-SSD/","path":"2025/09/08/Mac-微信聊天记录迁移到外置-SSD/","title":"Mac 微信聊天记录迁移到外置 SSD"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Mac 微信聊天记录迁移到外置 SSD | 自留地</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="自留地" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">自留地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">瞎哔哔.....</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%8D%A0%E7%94%A8%E4%BA%86%E5%B0%86%E8%BF%91-50-GB"><span class="nav-number">2.</span> <span class="nav-text">发现微信占用了将近 50 GB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E5%BE%AE%E4%BF%A1%E7%89%88%E6%9C%AC"><span class="nav-number">2.1.</span> <span class="nav-text">我的微信版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E6%9C%80%E5%90%8E"><span class="nav-number">3.</span> <span class="nav-text">最后的最后</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="NSDont"
+      src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+  <p class="site-author-name" itemprop="name">NSDont</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/nsdont" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;nsdont" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://mailto1587.github.io/" title="https:&#x2F;&#x2F;mailto1587.github.io" rel="noopener" target="_blank">mailto1587</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://tommao.me/" title="http:&#x2F;&#x2F;tommao.me&#x2F;" rel="noopener" target="_blank">istommao</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://peachis.me/" title="http:&#x2F;&#x2F;peachis.me&#x2F;" rel="noopener" target="_blank">peach</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://lagelalegal.github.io/" title="http:&#x2F;&#x2F;lagelalegal.github.io&#x2F;" rel="noopener" target="_blank">lagel</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nsdont.tech/2025/09/08/Mac-%E5%BE%AE%E4%BF%A1%E8%81%8A%E5%A4%A9%E8%AE%B0%E5%BD%95%E8%BF%81%E7%A7%BB%E5%88%B0%E5%A4%96%E7%BD%AE-SSD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://static-1252708783.cos.ap-shanghai.myqcloud.com/images/avatar/lianmen.png">
+      <meta itemprop="name" content="NSDont">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自留地">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Mac 微信聊天记录迁移到外置 SSD | 自留地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mac 微信聊天记录迁移到外置 SSD
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-09-08 16:27:51 / 修改时间：17:02:53" itemprop="dateCreated datePublished" datetime="2025-09-08T16:27:51+08:00">2025-09-08</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ol>
+<li>我的 MBP 只有 500GB, 多年用下来多余空间已经不足, 时不时就只有几 GB</li>
+<li>我买了个 2 TB 的 SSD 做外置硬盘(尿袋), 每天插着用</li>
+</ol>
+<h1 id="发现微信占用了将近-50-GB"><a href="#发现微信占用了将近-50-GB" class="headerlink" title="发现微信占用了将近 50 GB"></a>发现微信占用了将近 50 GB</h1><p>今天用 <code>DaisyDisk</code> 分析磁盘使用时, 发现微信占用了快 50 GB.<br><img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573215584116.jpg"><br>决定把迁移到 SSD 上, 因为动了沙盒环境, 微信迁移稍微麻烦一点, 上代码</p>
+<p>注意: 先停止微信</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将整个文件夹复制走</span></span><br><span class="line"><span class="built_in">cp</span> /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents /Volumes/Store/local/wechat/Documents</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份一下</span></span><br><span class="line"><span class="built_in">mv</span> /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents_backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建软链接</span></span><br><span class="line"><span class="built_in">ln</span> -s /Volumes/Store/local/wechat/Documents <span class="variable">$HOME</span>/Library/Containers/com.tencent.xinWeChat/Data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新签名一下</span></span><br><span class="line">sudo codesign --sign - --force --deep /Applications/WeChat.app</span><br></pre></td></tr></table></figure>
+
+<p>这时候就可以启动 wechat 了, 无痛迁移, 无影响就可以把 <code>Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents_backup</code> 删除了.</p>
+<p>对了, 需要允许一下微信反问外置硬盘</p>
+<p><img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573219230948.jpg"></p>
+<h2 id="我的微信版本"><a href="#我的微信版本" class="headerlink" title="我的微信版本"></a>我的微信版本</h2><p><img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573218863355.jpg"></p>
+<h1 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h1><p>附上我目前使用的一个脚本, 将目前 macOS 常用缓存等文件夹搬家到 SSD 里</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置目标目录</span></span><br><span class="line">TARGET_DIR=<span class="string">&quot;/Volumes/Store/local&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 预设要移动的文件夹列表</span></span><br><span class="line"><span class="comment"># 格式为: FOLDERS_TO_MOVE[&quot;&lt;source_path&gt;&quot;]=&quot;&lt;destination_name&gt;&quot;</span></span><br><span class="line"><span class="comment"># 如果 &lt;destination_name&gt; 为空, 则使用 source_path 的 basename</span></span><br><span class="line"><span class="built_in">declare</span> -A FOLDERS_TO_MOVE</span><br><span class="line">FOLDERS_TO_MOVE=(</span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/.pyenv&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/.ollama&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/.npm&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/.m2&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/.gradle&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/.cargo&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/Downloads/images&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/Downloads/lark&quot;</span>]=<span class="string">&quot;&quot;</span></span><br><span class="line">  [<span class="string">&quot;<span class="variable">$HOME</span>/Library/Containers/com.tencent.xinWeChat/Data/Documents&quot;</span>]=<span class="string">&quot;wechat/Documents&quot;</span></span><br><span class="line">  <span class="comment"># [&quot;$HOME/.go&quot;]=&quot;&quot;</span></span><br><span class="line">  <span class="comment"># 在此添加更多文件夹</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目标目录（如果不存在）</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$TARGET_DIR</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志函数</span></span><br><span class="line"><span class="function"><span class="title">log</span></span>() &#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;[<span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span>] <span class="variable">$1</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为每个文件夹创建软链接</span></span><br><span class="line"><span class="keyword">for</span> folder <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;!FOLDERS_TO_MOVE[@]&#125;</span>&quot;</span>; <span class="keyword">do</span></span><br><span class="line">  dest_name=<span class="string">&quot;<span class="variable">$&#123;FOLDERS_TO_MOVE[$folder]&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 如果 dest_name 为空, 使用默认行为</span></span><br><span class="line">  <span class="keyword">if</span> [ -z <span class="string">&quot;<span class="variable">$dest_name</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    dest_name=$(<span class="built_in">basename</span> <span class="string">&quot;<span class="variable">$folder</span>&quot;</span>)</span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 目标路径</span></span><br><span class="line">  target_path=<span class="string">&quot;<span class="variable">$TARGET_DIR</span>/<span class="variable">$dest_name</span>&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 检查原始文件夹是否存在</span></span><br><span class="line">  <span class="keyword">if</span> [ ! -d <span class="string">&quot;<span class="variable">$folder</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;警告: 文件夹 <span class="variable">$folder</span> 不存在，跳过&quot;</span></span><br><span class="line">    <span class="built_in">continue</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 检查目标位置是否已存在</span></span><br><span class="line">  <span class="keyword">if</span> [ -e <span class="string">&quot;<span class="variable">$target_path</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;警告: 目标位置 <span class="variable">$target_path</span> 已存在，跳过&quot;</span></span><br><span class="line">    <span class="built_in">continue</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 检查原始位置是否已经是软链接</span></span><br><span class="line">  <span class="keyword">if</span> [ -L <span class="string">&quot;<span class="variable">$folder</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;警告: <span class="variable">$folder</span> 已经是软链接，跳过&quot;</span></span><br><span class="line">    <span class="built_in">continue</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 创建目标路径的父目录 (如果需要)</span></span><br><span class="line">  <span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="subst">$(dirname <span class="string">&quot;<span class="variable">$target_path</span>&quot;</span>)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 移动文件夹到目标位置</span></span><br><span class="line">  <span class="built_in">log</span> <span class="string">&quot;移动 <span class="variable">$folder</span> 到 <span class="variable">$target_path</span>&quot;</span></span><br><span class="line">  <span class="built_in">mv</span> <span class="string">&quot;<span class="variable">$folder</span>&quot;</span> <span class="string">&quot;<span class="variable">$target_path</span>&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 检查移动是否成功</span></span><br><span class="line">  <span class="keyword">if</span> [ $? -ne 0 ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;错误: 无法移动 <span class="variable">$folder</span> 到 <span class="variable">$target_path</span>&quot;</span></span><br><span class="line">    <span class="built_in">continue</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 创建软链接</span></span><br><span class="line">  <span class="built_in">log</span> <span class="string">&quot;创建从 <span class="variable">$target_path</span> 到 <span class="variable">$folder</span> 的软链接&quot;</span></span><br><span class="line">  <span class="built_in">ln</span> -s <span class="string">&quot;<span class="variable">$target_path</span>&quot;</span> <span class="string">&quot;<span class="variable">$folder</span>&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 检查链接是否创建成功</span></span><br><span class="line">  <span class="keyword">if</span> [ $? -ne 0 ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;错误: 无法创建从 <span class="variable">$target_path</span> 到 <span class="variable">$folder</span> 的软链接&quot;</span></span><br><span class="line">    <span class="comment"># 尝试恢复原始文件夹</span></span><br><span class="line">    <span class="built_in">mv</span> <span class="string">&quot;<span class="variable">$target_path</span>&quot;</span> <span class="string">&quot;<span class="variable">$folder</span>&quot;</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;已尝试恢复原始文件夹&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">log</span> <span class="string">&quot;成功: <span class="variable">$folder</span> 已移动并创建软链接&quot;</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span> <span class="string">&quot;操作完成&quot;</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/macOS/" rel="tag"># macOS</a>
+              <a href="/tags/SSD/" rel="tag"># SSD</a>
+              <a href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag"># 微信</a>
+              <a href="/tags/%E5%B0%BF%E8%A2%8B/" rel="tag"># 尿袋</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/04/23/M-%E7%B3%BB%E5%88%97-Mac-%E5%A6%82%E4%BD%95%E6%8B%89%E5%8F%96%E8%BF%90%E8%A1%8C%E9%9D%9E-ARM-%E6%9E%B6%E6%9E%84%E7%9A%84%E9%95%9C%E5%83%8F/" rel="prev" title="M 系列 Mac 如何拉取运行非 ARM 架构的镜像">
+                  <i class="fa fa-angle-left"></i> M 系列 Mac 如何拉取运行非 ARM 架构的镜像
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">NSDont</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">16k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"nsdont","repo":"nsdont.github.io","client_id":"708eb24049cf4132a8bb","client_secret":"ad31e98ce4b6a36d8ea5a5102277ddbe56bb4834","admin_user":"nsdont","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"16fdc550ef61a76c56e150b8750cd2a9"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
