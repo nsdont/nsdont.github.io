@@ -243,9 +243,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-09-08 16:27:51 / 修改时间：17:02:53" itemprop="dateCreated datePublished" datetime="2025-09-08T16:27:51+08:00">2025-09-08</time>
+      <time title="创建时间：2025-09-08 16:27:51" itemprop="dateCreated datePublished" datetime="2025-09-08T16:27:51+08:00">2025-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-10 12:48:46" itemprop="dateModified" datetime="2025-10-10T12:48:46+08:00">2025-10-10</time>
     </span>
 
   
@@ -279,7 +285,7 @@
 </ol>
 <h1 id="发现微信占用了将近-50-GB"><a href="#发现微信占用了将近-50-GB" class="headerlink" title="发现微信占用了将近 50 GB"></a>发现微信占用了将近 50 GB</h1><p>今天用 <code>DaisyDisk</code> 分析磁盘使用时, 发现微信占用了快 50 GB.<br><img src="https://static-1252708783.cos.ap-shanghai.myqcloud.com/blogs/2025/09/08/17573215584116.jpg"><br>决定把迁移到 SSD 上, 因为动了沙盒环境, 微信迁移稍微麻烦一点, 上代码</p>
 <p>注意: 先停止微信</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将整个文件夹复制走</span></span><br><span class="line"><span class="built_in">cp</span> /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents /Volumes/Store/local/wechat/Documents</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份一下</span></span><br><span class="line"><span class="built_in">mv</span> /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents_backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建软链接</span></span><br><span class="line"><span class="built_in">ln</span> -s /Volumes/Store/local/wechat/Documents <span class="variable">$HOME</span>/Library/Containers/com.tencent.xinWeChat/Data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新签名一下</span></span><br><span class="line">sudo codesign --sign - --force --deep /Applications/WeChat.app</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将整个文件夹复制走</span></span><br><span class="line"><span class="built_in">cp</span> /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents /Volumes/Store/local/wechat/Documents</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份一下</span></span><br><span class="line"><span class="built_in">mv</span> /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents /Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents_backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建软链接</span></span><br><span class="line"><span class="built_in">ln</span> -s /Volumes/Store/local/wechat/Documents <span class="variable">$HOME</span>/Library/Containers/com.tencent.xinWeChat/Data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新签名一下</span></span><br><span class="line"><span class="comment"># 如果出现升级微信之后, 无法打开引起的情况, 在执行签名就可以了</span></span><br><span class="line"><span class="comment"># update by: 20251010</span></span><br><span class="line">sudo codesign --sign - --force --deep /Applications/WeChat.app</span><br></pre></td></tr></table></figure>
 
 <p>这时候就可以启动 wechat 了, 无痛迁移, 无影响就可以把 <code>Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Documents_backup</code> 删除了.</p>
 <p>对了, 需要允许一下微信反问外置硬盘</p>
